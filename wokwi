@@ -1,0 +1,45 @@
+#include <WiFi.h>
+ 
+const char* ssid = "Wokwi-GUEST";
+const char* password =  "";
+ 
+const uint16_t port = 443;
+const char * host = "4c47-2800-bf0-8107-11cf-452-dac7-189c-8584.ngrok.io";
+ 
+void setup()
+{
+ 
+  Serial.begin(115200);
+ 
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.println("...");
+  }
+ 
+  Serial.print("WiFi connected with IP: ");
+  Serial.println(WiFi.localIP());
+ 
+}
+ 
+void loop()
+{
+    WiFiClient client;
+ 
+    if (!client.connect(host, port)) {
+ 
+        Serial.println("Connection to host failed");
+ 
+        delay(1000);
+        return;
+    }
+ 
+    Serial.println("Connected to server successful!");
+ 
+    //client.print("Hello from ESP32!");
+ 
+    Serial.println("Disconnecting...");
+    client.stop();
+ 
+    delay(10000);
+}
